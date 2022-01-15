@@ -1,0 +1,11 @@
+`define PID_PLAYER_META                     1
+`define PID_PLAYER_STOPPED_SPEAKING         2
+`define PID_PLAYER_SPEAKING                 3
+`define PID_PLAYER_SPEAKING_SPATIALIZED     4
+`define PID_PLAYER_DISCONNECTED             5
+`define PID_PLAYER_SPAWNED                  6
+`define PID_PLAYER_DIED                     7
+`define PID_PLAYER_SQUAD_CHANGED            8
+`define PID_PLAYER_TEAM_CHANGED             9
+
+`define MURMURTCPLINK_CONFIG_VERSION 1
