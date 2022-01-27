@@ -28,7 +28,7 @@ struct Packet
     }
 };
 
-// Should be sent when a player joins or their PlayerID changes.
+// Should be sent when a player joins or their PlayerID changes. PlayerID shouldn't change though?
 // TODO: is Team and Squad needed here?
 struct PlayerMeta extends Packet
 {
@@ -85,6 +85,7 @@ struct PlayerSpeakingSpatialized extends PlayerSpeaking
 struct PlayerDisconnected extends Packet
 {
     var int PlayerID;
+    // TODO: don't probably need these for this packet.
     var int UniqueNetIDHi;
     var int UniqueNetIDLo;
 
@@ -256,6 +257,66 @@ function int MakePlayerSpeakingSpatialized(ROPlayerReplicationInfo ROPRI, out by
 
     Buffer[0] = 31;
     return 31;
+}
+
+function int MakePlayerDisconnected(ROPlayerReplicationInfo ROPRI, out byte Buffer[255])
+{
+    Buffer[1] = EPID_PLAYER_DISCONNECTED;
+    Buffer[2] = byte(ROPRI.PlayerID);
+    Buffer[3] = byte(ROPRI.PlayerID >> 8);
+    Buffer[4] = byte(ROPRI.PlayerID >> 16);
+    Buffer[5] = byte(ROPRI.PlayerID >> 24);
+
+    Buffer[0] = 6;
+    return 6;
+}
+
+function int MakePlayerSpawned(ROPlayerReplicationInfo ROPRI, out byte Buffer[255])
+{
+    Buffer[1] = EPID_PLAYER_SPAWNED;
+    Buffer[2] = byte(ROPRI.PlayerID);
+    Buffer[3] = byte(ROPRI.PlayerID >> 8);
+    Buffer[4] = byte(ROPRI.PlayerID >> 16);
+    Buffer[5] = byte(ROPRI.PlayerID >> 24);
+
+    Buffer[0] = 6;
+    return 6;
+}
+
+function int MakePlayerDied(ROPlayerReplicationInfo ROPRI, out byte Buffer[255])
+{
+    Buffer[1] = EPID_PLAYER_DIED;
+    Buffer[2] = byte(ROPRI.PlayerID);
+    Buffer[3] = byte(ROPRI.PlayerID >> 8);
+    Buffer[4] = byte(ROPRI.PlayerID >> 16);
+    Buffer[5] = byte(ROPRI.PlayerID >> 24);
+
+    Buffer[0] = 6;
+    return 6;
+}
+
+function int MakePlayerSquadChanged(ROPlayerReplicationInfo ROPRI, out byte Buffer[255])
+{
+    Buffer[1] = EPID_PLAYER_SQUAD_CHANGED;
+    Buffer[2] = byte(ROPRI.PlayerID);
+    Buffer[3] = byte(ROPRI.PlayerID >> 8);
+    Buffer[4] = byte(ROPRI.PlayerID >> 16);
+    Buffer[5] = byte(ROPRI.PlayerID >> 24);
+
+    Buffer[0] = -1;
+    return -1;
+}
+
+function int MakePlayerPlayerTeamChanged(ROPlayerReplicationInfo ROPRI, out byte Buffer[255])
+{
+    Buffer[1] = EPID_PLAYER_TEAM_CHANGED;
+    Buffer[2] = byte(ROPRI.PlayerID);
+    Buffer[3] = byte(ROPRI.PlayerID >> 8);
+    Buffer[4] = byte(ROPRI.PlayerID >> 16);
+    Buffer[5] = byte(ROPRI.PlayerID >> 24);
+
+    Buffer[0] = -1;
+    return -1;
 }
 
 function PlayerMetaTimer()
