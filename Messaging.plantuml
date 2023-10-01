@@ -1,0 +1,17 @@
+@startuml Messaging
+
+!theme aws-orange
+
+RS2GameServer -> IceRelay : Update player positions
+IceRelay -> Murmur : Update player positions
+Murmur -> CustomMumble : Audio data packet with server-side position\nSent to all relevant clients (based on context)
+
+RS2GameServer -> IceRelay : Update avatar orientation
+IceRelay -> Murmur : Update avatar orientation
+Murmur -> CustomMumble : Update avatar orientation\n(only gets sent to the Mumble\nclient that owns this avatar on RS2GameServer)\nProtobuf?
+
+RS2GameServer -> IceRelay : Player joined/left team/squad
+IceRelay -> Murmur : Player joined/left team/squad (ACLs?)
+Murmur -> CustomMumble : Kick/move/etc. client (ACLs?)
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml VOIPDeployment
+
+!theme aws-orange
+
+node ServerMachine {
+    node RS2GameServer {
+    }
+
+    node IceRelay {
+    }
+
+    node Murmur {
+    }
+}
+
+node ClientMachine {
+    node CustomMumble {
+    }
+
+    node RS2GameClient {
+    }
+}
+
+Murmur -- IceRelay : ""Ice""
+RS2GameServer -- IceRelay : ""TCP""
+
+RS2GameClient -- RS2GameServer : ""UDP / Unreal Protocol""
+CustomMumble -- Murmur : ""Mumble Protocol""
+
+note bottom of IceRelay
+    Just a small server that translates RS2GameServer <-> Murmur communication
+    since there is are no Ice bindings for UnrealScript.
+endnote
+
+@enduml
